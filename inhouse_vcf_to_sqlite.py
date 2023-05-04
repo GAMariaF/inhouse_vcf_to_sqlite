@@ -155,7 +155,7 @@ class Vcf_to_sqlite:
         path = self.iteratefolder
         for path, subdirs, files in os.walk(path):
             for name in files:
-                if re.search(".raw.variants.Filtered.individual.annotated.subset.", name):
+                if re.search(".raw.variants.Filtered.individual.annotated.subset.spliceai.", name):
                     sample = name.split('.')[0]
                     # Run insert into db:
                     samples[sample] = os.path.join(path,name)
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--stats',                help="Print stats",                                                                                             required=False,     action='store_true' )    
     parser.add_argument('-p', '--print_vcf',            help="output vcf for use in pipeline",                                                                          required=False,     action='store_true' )
     parser.add_argument('-i', '--import_inhouse_vcf',   help="Import a vcf with inhouse variants",                                                                      required=False                          )
-    parser.add_argument('-f', '--add_folder',           help="Add a folder, and search it for files containing *.raw.variants.Filtered.individual.annotated.subset.spliceai.* ", required=False                          )
+    parser.add_argument('-f', '--add_folder',           help="Add a folder, and search it for files containing *.raw.variants.Filtered.individual.annotated.subset.* ", required=False                          )
     
 
     args = parser.parse_args()
