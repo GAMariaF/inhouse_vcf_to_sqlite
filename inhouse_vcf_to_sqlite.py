@@ -99,18 +99,21 @@ class Vcf_to_sqlite:
         '##reference=GRChr37',
         '##INFO=<ID=IHSAMPLES,Number=1,Type=String,Description="Sample names from inhouse db that contains this variant and het state in parentheses">',
         '##INFO=<ID=IHHET,Number=1,Type=String,Description="Number of inhouse hets for this variant">',
-        '##INFO=<ID=IHHOM,Number=1,Type=String,Description="Number of inhouse homozygotes for this variant">']
+        '##INFO=<ID=IHHOM,Number=1,Type=String,Description="Number of inhouse homozygotes for this variant">',
+        '##INFO=<ID=IHHET_FREQ,Number=1,Type=String,Description="Frequency of inhouse hets for this variant">',
+        '##INFO=<ID=IHHOM_FREQ,Number=1,Type=String,Description="Frequency of inhouse homozygotes for this variant">']
         
         lasthead = ['#CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
         
-        
+        query_no_of_samples = """select count(distinct sample) from samples""";
+        no_of_samples = pd.read_sql_query(query_no_of_samples, conn).iat[0,0]
         
         for i in header:
             writer.writerow([i])
         writer.writerow(lasthead)
         for index, row in df.iterrows():
             if row[5] != "0":
-                writestring = [row[1],row[2], row[3], row[4], row[5], row[6], "PASS", "IHSAMPLES={};IHHET={};IHHOM={}".format( row[7], int(row[8]), int(row[9]))]
+                writestring = [row[1],row[2], row[3], row[4], row[5], row[6], "PASS", "IHSAMPLES={};IHHET={};IHHOM={};IHHET_FREQ={};IHHOM_FREQ={}".format( row[7], int(row[8]), int(row[9]), float(row[8])/no_of_samples, float(row[9])/no_of_samples)]
                 writer.writerow(writestring)
 
     def get_from_inhouse(self):
