@@ -105,9 +105,10 @@ class Vcf_to_sqlite:
         
         lasthead = ['#CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
         
-        query_no_of_samples = """select count(distinct sample) from samples""";
-        no_of_samples = pd.read_sql_query(query_no_of_samples, conn).iat[0,0]
-        
+        #query_no_of_samples = """select count(distinct sample) from samples""";
+        #no_of_samples = pd.read_sql_query(query_no_of_samples, conn).iat[0,0]
+        no_of_samples = 100000
+
         for i in header:
             writer.writerow([i])
         writer.writerow(lasthead)
