@@ -101,7 +101,9 @@ class Vcf_to_sqlite:
         '##INFO=<ID=IHHET,Number=1,Type=String,Description="Number of inhouse hets for this variant">',
         '##INFO=<ID=IHHOM,Number=1,Type=String,Description="Number of inhouse homozygotes for this variant">',
         '##INFO=<ID=IHHET_FREQ,Number=1,Type=String,Description="Frequency of inhouse hets for this variant">',
-        '##INFO=<ID=IHHOM_FREQ,Number=1,Type=String,Description="Frequency of inhouse homozygotes for this variant">']
+        '##INFO=<ID=IHHOM_FREQ,Number=1,Type=String,Description="Frequency of inhouse homozygotes for this variant">',
+        '##INFO=<ID=IHHET_NUM,Number=1,Type=String,Description="Dummy number needed for Ella">',
+        '##INFO=<ID=IHHOM_NUM,Number=1,Type=String,Description="Dummy number needed for Ella">']
         
         lasthead = ['#CHROM','POS','ID','REF','ALT','QUAL','FILTER','INFO']
         
@@ -110,7 +112,7 @@ class Vcf_to_sqlite:
         writer.writerow(lasthead)
         for index, row in df.iterrows():
             if row[5] != "0":
-                writestring = [row[1],row[2], row[3], row[4], row[5], row[6], "PASS", "IHSAMPLES={};IHHET={};IHHOM={};IHHET_FREQ={};IHHOM_FREQ={}".format( row[7], int(row[8]), int(row[9]), (float(row[8]) + float(row[9]))/100000)]
+                writestring = [row[1],row[2], row[3], row[4], row[5], row[6], "PASS", "IHSAMPLES={};IHHET={};IHHOM={};IHHET_FREQ={};IHHOM_FREQ={};IHHET_NUM={};IHHOM_NUM={}".format( row[7], int(row[8]), int(row[9]), float(row[8])/100000, float(row[9])/100000, 100000, 100000 )]
                 writer.writerow(writestring)
 
     def get_from_inhouse(self):
